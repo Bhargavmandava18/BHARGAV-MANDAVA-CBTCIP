@@ -1,0 +1,41 @@
+import random
+
+def generate_secret_number():
+    return random.randint(1000, 9999)  # Generates a 4-digit secret number
+
+def get_matching_digits(secret_number, guess):
+    return sum(1 for x, y in zip(secret_number, guess) if x == y)
+
+def play_game():
+    secret_number = generate_secret_number()
+    attempts = 0
+
+    print("Player 1, set your 4-digit number.")
+
+    while True:
+        player2_guess = input("Player 2, make your guess: ")
+
+        if not player2_guess.isdigit() or len(player2_guess) != 4:
+            print("Please enter a 4-digit number.")
+            continue
+
+        attempts += 1
+        matching_digits = get_matching_digits(str(secret_number), player2_guess)
+
+        if matching_digits == 4:
+            print(f"Congratulations! Player 2 wins in {attempts} attempts. The secret number was {secret_number}.")
+            return
+
+        print(f"Player 2, you got {matching_digits} digit(s) correct. Try again.")
+
+def main():
+    print("Welcome to the Mastermind game!")
+    play_game()
+
+    while input("Do you want to play again? (yes/no): ").lower() == "yes":
+        play_game()
+
+    print("Thanks for playing!")
+
+if __name__ == "__main__":
+    main()
